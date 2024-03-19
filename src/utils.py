@@ -16,15 +16,17 @@ def read_file(file):
             raise e("Error reading pdf file")
     
     elif file.name.endswith('.txt'):
-        return file.read().decode('utf-8')
-    
+        return file.read().decode("utf-8")
+
     else:
         raise Exception("File type not supported")
 
 
 def get_table_data(quiz_str):
     try:
-        quiz=json.loads(response.get("quiz"))     # loading response into json object
+        print(quiz_str)
+        print(type(quiz_str))
+        quiz=json.loads(quiz_str.get("quiz"))     # loading response into json object
         quiz_table_data = []
 
         # iterating over the dictionary items
@@ -45,3 +47,5 @@ def get_table_data(quiz_str):
     except Exception as e:
         traceback.print_exception(type(e), e, e.__traceback__)
         return False
+
+

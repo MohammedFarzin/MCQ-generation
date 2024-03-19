@@ -4,4 +4,6 @@ streamlit
 python-dotenv
 PyPDF2
 pandas
+plotly
+langchain-community
 # -e .
