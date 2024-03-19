@@ -27,29 +27,18 @@ def get_table_data(quiz_str):
         quiz=json.loads(quiz_str)
         quiz_table_data = []
         for key, value in quiz.items():
-
             mcq = value["mcq"]
-
-
             options = " | ".join(
                 [
                     f"{option}: {option_value}"
                     for option, option_value in value["options"].items()
                     ]
                 )
-
-            
             correct = value["correct"]
-
-
             quiz_table_data.append({"MCQ": mcq, "Choices": options, "Correct": correct}) 
-
-
         return quiz
 
-    except Exception as e:
-
-        
+    except Exception as e:       
         traceback.print_exception(type(e), e, e.__traceback__)
         return False
 

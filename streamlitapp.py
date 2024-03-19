@@ -72,10 +72,7 @@ with st.form("user_inputs"):
                     print('quiz', quiz)
                     if quiz:
                         table_data = get_table_data(quiz)
-
-
                         if table_data:
-
                             df = pd.DataFrame(table_data)
                             # df.index += 1
                             st.table(df)
