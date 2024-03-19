@@ -3,8 +3,9 @@ import json
 import pandas as pd
 import traceback
 from dotenv import  load_dotenv
+from src.logger import logging
+from src.utils import get_table_data, read_file
 from langchain.chat_models import ChatOpenAI
-# Importing libraries
 from langchain.llms import OpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain, SequentialChain
@@ -52,6 +53,7 @@ RESPONSE_JSON = {
 
 TEMPLATE_1 = """
 You are an expert in MCQ generation. Please generate {number} multiple choice questions about {subject} subject from the delimited text by triple double quotes and question should in {tone} tone. \
+Don't create the multiple choices value with same as the previous question multiple choices instead replace with values that are similar to the question\
 
 Text to generate questions:\
 {text}
@@ -69,14 +71,15 @@ Outputs should be in JSON  object following:
 TEMPLATE_2 = """
 You are experienced professor. You need to evaluate the complexity of multiple choice question delimited by triple double quotes and give a complete analysis of the quiz about {subject}.\
 Only use maximum 50 words for complexity analysis. If the quiz is not suitable with the cognitive and analytical abilities of the {subject} students, update the quiz questions \
-which needs to be changed and change the tone of the multiple choice questions such that perfectly aligns and fits the {subject} student abilities. Outputs should in JSON object \
+which needs to be changed and change the tone of the multiple choice questions such that perfectly aligns and fits the {subject} student abilities.Make sure that don't repeat the same \
+multiple choice values. Outputs should in JSON object \
 that includes the following:\
 keys: question, multiple choices, and correct answer
 
 Quiz multiple choice question:
 \"\"\"{quiz}\"\"\"
 
-Check from an {subject} expert that the question and answer is valid and correct.
+Check from an {subject} expert that the question and answer is valid and correct. Remember don't repeat the same multiple choice values except the answer.
 """
 
 # Creates a new instance of OpenAI
@@ -112,10 +115,8 @@ complete_quiz_chain = SequentialChain(
 
 
 # Defining the variables
-file_path = '../data.txt'
-with open(file_path, 'r') as file:
-    TEXT = file.read()
-
+file_path = 'D:\Machine learning\Generative AI\MCQ generator\data.txt'
+TEXT = read_file(file_path)
 NUMBER = 10
 SUBJECT = 'Physics'
 TONE = 'Normal'
@@ -135,24 +136,11 @@ with get_openai_callback() as cb:
     )
 
 
-# loading response into json object
-quiz=json.loads(response.get("quiz"))
-
-
-
 # Creating a DataFrame and saving it in csv format
-quiz_table_data = []
-for key, value in quiz.items():
-    mcq = value["mcq"]
-    options = " | ".join(
-        [
-            f"{option}: {option_value}"
-            for option, option_value in value["options"].items()
-            ]
-        )
-    correct = value["correct"]
-    quiz_table_data.append({"MCQ": mcq, "Choices": options, "Correct": correct})
+df = get_table_data(response)
+df.to_csv('Questions.csv', index=False)
 
-quiz=pd.DataFrame(quiz_table_data) 
-quiz.to_csv(f"{SUBJECT}.csv",index=False)
+# Printing token usage in langchain
+logging.info(cb)
+
 
