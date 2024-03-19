@@ -3,3 +3,4 @@ env
 mcqgenerator.egg-info
 data.txt
 experiments/*.csv
+logs    
