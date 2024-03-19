@@ -24,27 +24,32 @@ def read_file(file):
 
 def get_table_data(quiz_str):
     try:
-        print(quiz_str)
-        print(type(quiz_str))
-        quiz=json.loads(quiz_str.get("quiz"))     # loading response into json object
+        quiz=json.loads(quiz_str)
         quiz_table_data = []
-
-        # iterating over the dictionary items
         for key, value in quiz.items():
+
             mcq = value["mcq"]
+
+
             options = " | ".join(
                 [
                     f"{option}: {option_value}"
                     for option, option_value in value["options"].items()
                     ]
                 )
-            correct = value["correct"]
-            quiz_table_data.append({"MCQ": mcq, "Choices": options, "Correct": correct})
 
-        quiz=pd.DataFrame(quiz_table_data) 
+            
+            correct = value["correct"]
+
+
+            quiz_table_data.append({"MCQ": mcq, "Choices": options, "Correct": correct}) 
+
+
         return quiz
 
     except Exception as e:
+
+        
         traceback.print_exception(type(e), e, e.__traceback__)
         return False
 

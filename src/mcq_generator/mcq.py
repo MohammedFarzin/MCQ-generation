@@ -17,39 +17,39 @@ load_dotenv()
 KEY = os.getenv("OPENAI_API_KEY")
 
 
-# TEMPLATE_1 = """
-# You are an expert in MCQ generation. Please generate {number} multiple choice questions about {subject} subject from the delimited text by triple double quotes and question should in {tone} tone. \
-# Don't create the multiple choices value with same as the previous question multiple choices instead replace with values that are similar to the question\
+TEMPLATE_1 = """
+You are an expert in MCQ generation. Please generate {number} multiple choice questions about {subject} subject from the delimited text by triple double quotes and question should in {tone} tone. \
+Don't create the multiple choices value with same as the previous question multiple choices instead replace with values that are similar to the question\
 
-# Text to generate questions:\
-# {text}
+Text to generate questions:\
+{text}
 
-# Please make sure that you don't forget about the question tone, it is really important to assess the student knowledge and exclude the delimiter.  If there is nothing related to {subject} subject then please show that \
-# \"There is no text related to {subject}\".\
+Please make sure that you don't forget about the question tone, it is really important to assess the student knowledge and exclude the delimiter.  If there is nothing related to {subject} subject then please show that \
+\"There is no text related to {subject}\".\
 
-# Outputs should be in JSON  object following:
-# {response_json}
+Outputs should be in JSON  object following:
+{response_json}
 
-# """
+"""
 
 
 
-# TEMPLATE_2 = """
-# You are experienced professor. You need to evaluate the complexity of multiple choice question delimited by triple double quotes and give a complete analysis of the quiz about {subject}.\
-# Only use maximum 50 words for complexity analysis. If the quiz is not suitable with the cognitive and analytical abilities of the {subject} students, update the quiz questions \
-# which needs to be changed and change the tone of the multiple choice questions such that perfectly aligns and fits the {subject} student abilities.Make sure that don't repeat the same \
-# multiple choice values. Outputs should in JSON object \
-# that includes the following:\
-# keys: question, multiple choices, and correct answer
+TEMPLATE_2 = """
+You are experienced professor. You need to evaluate the complexity of multiple choice question delimited by triple double quotes and give a complete analysis of the quiz about {subject}.\
+Only use maximum 50 words for complexity analysis. If the quiz is not suitable with the cognitive and analytical abilities of the {subject} students, update the quiz questions \
+which needs to be changed and change the tone of the multiple choice questions such that perfectly aligns and fits the {subject} student abilities.Make sure that don't repeat the same \
+multiple choice values. Outputs should in JSON object \
+that includes the following:\
+keys: question, multiple choices, and correct answer
 
-# Quiz multiple choice question:
-# \"\"\"{quiz}\"\"\"
+Quiz multiple choice question:
+\"\"\"{quiz}\"\"\"
 
-# Check from an {subject} expert that the question and answer is valid and correct. Remember don't repeat the same multiple choice values except the answer.
-# """
+Check from an {subject} expert that the question and answer is valid and correct. Remember don't repeat the same multiple choice values except the answer.
+"""
 
-TEMPLATE_1 = "A"
-TEMPLATE_2 = "B"
+# TEMPLATE_1 = "A"
+# TEMPLATE_2 = "B"
 
 
 # Creates a new instance of OpenAI

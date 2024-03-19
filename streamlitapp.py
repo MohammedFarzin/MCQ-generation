@@ -69,11 +69,15 @@ with st.form("user_inputs"):
                 if isinstance(responses, dict):
                     # Extract the quiz data from the response
                     quiz = responses.get("quiz", None)
+                    print('quiz', quiz)
                     if quiz:
                         table_data = get_table_data(quiz)
+
+
                         if table_data:
+
                             df = pd.DataFrame(table_data)
-                            df.index += 1
+                            # df.index += 1
                             st.table(df)
                             st.success("Successfully generated the MCQ")
                             st.text_area(label="Review", value=responses.get("review", None), height=200)
