@@ -69,7 +69,6 @@ with st.form("user_inputs"):
                 if isinstance(responses, dict):
                     # Extract the quiz data from the response
                     quiz = responses.get("quiz", None)
-                    print('quiz', quiz)
                     if quiz:
                         table_data = get_table_data(quiz)
                         if table_data:
